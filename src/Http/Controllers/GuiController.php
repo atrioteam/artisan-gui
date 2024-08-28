@@ -39,7 +39,10 @@ class GuiController extends Controller {
         $rules = $this->buildRules($command);
         $data = request()->validate($rules);
 
-        $data = array_filter($data);
+        $data = array_filter($data, function ($value) {
+            return $value !== null;
+        });
+
         $options = array_keys($command->getDefinition()->getOptions());
 
         $params = [];
